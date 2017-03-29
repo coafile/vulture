@@ -37,5 +37,9 @@ def test_whitelist():
         [sys.executable, 'whitelist.py'], cwd=REPO) == 0
 
 
+def test_whitelist_function():
+    assert call_vulture(['vulture.py', 'whitelist.py']) == 0
+
+
 def test_pyc():
     assert call_vulture(['missing.pyc']) == 1
