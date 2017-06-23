@@ -55,6 +55,15 @@ if sys.version_info < (3, 4):
 # Ignore star-imported names, since we cannot detect whether they are used.
 IGNORED_IMPORTS = ["*"]
 
+CONFIDECE_MAP = {
+    'attribute': 50,
+    'class': 50,
+    'function': 50,
+    'import': 100,
+    'property': 50,
+    'variable': 50,
+}
+
 
 def format_path(path):
     if not path:
@@ -87,12 +96,17 @@ def read_file(filename):
         raise VultureInputException(err)
 
 
+def calculate_confidence(typ):
+    return CONFIDECE_MAP.get(typ, 0)
+
+
 class Item(str):
     def __new__(cls, name, typ, filename, lineno):
         item = str.__new__(cls, name)
         item.typ = typ
         item.filename = filename
         item.lineno = lineno
+        item.confidence = calculate_confidence(typ)
         return item
 
 
@@ -191,8 +205,9 @@ class Vulture(ast.NodeVisitor):
         for item in sorted(
                 self.unused_funcs + self.unused_imports + self.unused_props +
                 self.unused_vars + self.unused_attrs, key=file_lineno):
-            print("%s:%d: Unused %s '%s'" % (
-                format_path(item.filename), item.lineno, item.typ, item))
+            print("%s:%d: Unused %s '%s' (%s%% sure)" % (
+                format_path(item.filename), item.lineno, item.typ, item,
+                item.confidence))
             unused_item_found = True
         return unused_item_found
 
