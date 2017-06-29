@@ -27,6 +27,7 @@ install:
   # Check that we have the expected version and architecture for Python
   - "python --version"
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
+  - "pip --version"
 
   - >
     "%CMD_IN_ENV% pip install
