@@ -15,9 +15,6 @@ environment:
       PYTHON_VERSION: "3.4"
       PYTHON_ARCH: "64"
 
-cache:
-  - "C:\\pip_cache"
-
 install:
   # Prepend newly installed Python to the PATH of this build (this cannot be
   # done from inside the powershell script as it would require to restart
@@ -30,8 +27,7 @@ install:
   - "pip --version"
 
   - >
-    "%CMD_IN_ENV% pip install
-    --cache-dir=C:\\pip_cache tox"
+    "%CMD_IN_ENV% pip install tox"
 
 build: false  # Not a C# project, build stuff at the test step instead.
 
