@@ -33,8 +33,7 @@ build: false  # Not a C# project, build stuff at the test step instead.
 
 test_script:
   - >
-    # tox takes care of everything, from installing to running tests and even reporting the code coverage
-    "%CMD_IN_ENV% tox
+    "%CMD_IN_ENV% tox"
 
 matrix:
   fast_finish: true
