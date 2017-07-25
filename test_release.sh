@@ -4,7 +4,7 @@ set -euo pipefail
 
 VERSION="$1"
 
-tox
+# tox
 
 # Check for uncommited changes.
 set +e
@@ -18,7 +18,7 @@ if [[ $retcode != 0 ]]; then
     exit 1
 fi
 
-git pull
+git pull upstream master
 
 # Bump version.
 sed -i -e "s/__version__ = '.*'/__version__ = '$VERSION'/" vulture/core.py
@@ -28,5 +28,5 @@ git tag -a "v$VERSION" -m "v$VERSION" HEAD
 python setup.py sdist upload -r testpypi
 python setup.py bdist_wheel upload -r testpypi
 
-git push
-git push --tags
+git push origin master
+git push origin master --tags
